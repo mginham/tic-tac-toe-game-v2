@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 public class GameView extends JPanel {
     private JButton[][] cells = new JButton[3][3];
     private String turn1 = "Player X's turn";
+    private JPanel statusPanel = new JPanel();
     private JLabel statusLabel = new JLabel(turn1);
 
     // Constructor to initialize the board
@@ -15,21 +16,36 @@ public class GameView extends JPanel {
         setLayout(new BorderLayout());
 
         JPanel gridPanel = new JPanel(new GridLayout(3, 3));
-        Font cellFont = new Font(Font.SANS_SERIF, Font.BOLD, 40);
+        Font cellFont = new Font(Font.SANS_SERIF, Font.BOLD, 80);
+
+        statusPanel.setLayout(new BorderLayout());
+        statusPanel.add(statusLabel, BorderLayout.CENTER);
+        statusPanel.setBackground(Color.DARK_GRAY);
+
+        statusLabel.setHorizontalAlignment(JLabel.CENTER);
+        statusLabel.setFont(new Font("Arial", Font.BOLD, 50));
+        statusLabel.setForeground(Color.white);
+
+        gridPanel.setBackground(Color.LIGHT_GRAY);
 
         // Generate every cell to be a blank button
         for (int r = 0; r < 3; r++) {
             for (int c = 0; c < 3; c++) {
                 cells[r][c] = new JButton(" ");
                 cells[r][c].setFont(cellFont);
+                cells[r][c].setContentAreaFilled(false);
+                cells[r][c].setOpaque(true);
+                cells[r][c].setBackground(Color.LIGHT_GRAY);
+                cells[r][c].setForeground(Color.black);
+                cells[r][c].setFocusable(false);
 
                 // Add the cell to the grid
                 gridPanel.add(cells[r][c]);
             }
         }
 
-        // Add the grid and the text label to the layout
-        add(statusLabel, BorderLayout.NORTH);
+        // Add the grid and the text to the layout
+        add(statusPanel, BorderLayout.NORTH);
         add(gridPanel, BorderLayout.CENTER);
     }
 
@@ -56,12 +72,12 @@ public class GameView extends JPanel {
         statusLabel.setText(msg);
     }
 
-    // Disables the buttons for every cell
-    public void disableBtns () {
-        for (JButton[] row : cells) {
-            for (JButton button : row) {
-                button.setEnabled(false);
-            }
+    // Changes the colors of the winning row
+    public void highlightWinningRow (int[][] winningRow) {
+        for (int[] cell : winningRow) {
+            int row = cell[0];
+            int col = cell[1];
+            cells[row][col].setBackground(Color.GREEN);
         }
     }
 
@@ -71,7 +87,7 @@ public class GameView extends JPanel {
         for (JButton[] row : cells) {
             for (JButton button : row) {
                 button.setText(" ");
-                button.setEnabled(true);
+                button.setBackground(Color.LIGHT_GRAY);
             }
         }
 

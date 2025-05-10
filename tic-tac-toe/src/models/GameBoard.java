@@ -7,6 +7,7 @@ public class GameBoard {
     private Player player2;
     private Player currentPlayer;
     private boolean gameOver;
+    private int[][] winningRow = new int[3][2]; // max 3 cells, each with [row, col]
 
     // Constructor to initialize the board
     public GameBoard (Player player1, Player player2) {
@@ -75,17 +76,32 @@ public class GameBoard {
         return checkWinner() ? currentPlayer : null;
     }
 
+    // Returns the winning row if there is one
+    public int[][] getWinningRow() {
+        return gameOver ? winningRow : new int[0][0];
+    }
+
     // Checks if a win condition has been met
     private boolean checkWinner () {
         for (int i = 0; i < 3; i++) {
-            // Check for row or column win
-            if (checkLine(board[i][0], board[i][1], board[i][2]) || checkLine(board[0][i], board[1][i], board[2][i])) {
+            if (checkLine(board[i][0], board[i][1], board[i][2])) {
+                // Row win
+                winningRow = new int[][] { {i,0}, {i,1}, {i,2} };
+                return true;
+            } else if (checkLine(board[0][i], board[1][i], board[2][i])) {
+                // Column win
+                winningRow = new int[][] { {0,i}, {1,i}, {2,i} };
                 return true;
             }
         }
 
-        // Check for diagonal win
-        if (checkLine(board[0][0], board[1][1], board[2][2]) || checkLine(board[0][2], board[1][1], board[2][0])) {
+        if (checkLine(board[0][0], board[1][1], board[2][2])) {
+            // Diagonal win
+            winningRow = new int[][] { {0,0}, {1,1}, {2,2} };
+            return true;
+        } else if (checkLine(board[0][2], board[1][1], board[2][0])) {
+            // Anti-diagonal win
+            winningRow = new int[][] { {0,2}, {1,1}, {2,0} };
             return true;
         }
 

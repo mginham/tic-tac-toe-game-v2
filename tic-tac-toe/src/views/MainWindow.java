@@ -20,6 +20,13 @@ public class MainWindow extends JFrame {
 
         // Create restart button
         restartBtn = new JButton("Restart");
+        restartBtn.setFont(new Font("Arial", Font.BOLD, 15));
+        restartBtn.setForeground(Color.WHITE);
+        restartBtn.setBackground(Color.DARK_GRAY);
+        restartBtn.setOpaque(true);
+        restartBtn.setBorderPainted(true);
+        restartBtn.setFocusPainted(false);
+        restartBtn.setMargin(new Insets(10, 20, 10, 20));
 
         // Add elements to the layout
         add(gameView, BorderLayout.CENTER);

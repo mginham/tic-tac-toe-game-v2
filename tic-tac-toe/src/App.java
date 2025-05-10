@@ -4,7 +4,7 @@ import views.MainWindow;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        //
+        // Execute runnable on the AWT event-dispatching thread
         javax.swing.SwingUtilities.invokeLater(() -> {
             Player player1 = new Player("Player X", -1);
             Player player2 = new Player("Player O", 1);

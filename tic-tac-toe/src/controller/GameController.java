@@ -6,11 +6,14 @@ import views.MainWindow;
 public class GameController {
     private GameBoard model;
     private MainWindow mainWindow;
+    private boolean locked;
 
     // Constructor to initialize the game controller
     public GameController (GameBoard model, MainWindow mainWindow) {
         this.model = model;
         this.mainWindow = mainWindow;
+
+        locked = false;
 
         initGame();
     }
@@ -34,12 +37,18 @@ public class GameController {
 
     // Resets the game board
     private void resetGame () {
+        locked = false;
         model.resetBoard();
         mainWindow.getGameView().resetBtns();
     }
 
     // Update necessary fields to reflect a player move
     private void handleMove (int row, int col) {
+        // Prevent players from making moves after game is over
+        if (locked || model.isGameOver()) {
+            return;
+        }
+
         var view = mainWindow.getGameView();
 
         // Check for valid player turn
@@ -49,18 +58,19 @@ public class GameController {
 
             // Check for game over condition
             if (model.isGameOver()) {
+                locked = true;
+
                 var winner = model.getWinner();
 
                 if (winner != null) {
                     // Announce the winner
                     view.updateStatus("Player " + winner.getSymbol() + " wins!");
+                    view.highlightWinningRow(model.getWinningRow());
                 } else {
                     // Accounce a draw
                     view.updateStatus("It's a draw!");
                 }
 
-                // Disable the grid cell buttons
-                view.disableBtns();
             } else {
                 // If game is NOT over, announce next player turn
                 view.updateStatus("Plater " + model.getCurrentPlayer().getSymbol() + "'s turn");
