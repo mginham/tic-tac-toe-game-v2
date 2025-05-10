@@ -2,7 +2,7 @@ package models;
 
 // Model to handle the game state and logic
 public class GameBoard {
-    private int[][] board; // -1 for 'X', 1 for 'O', and 0 for ' '
+    private int[][] board;
     private Player player1;
     private Player player2;
     private Player currentPlayer;

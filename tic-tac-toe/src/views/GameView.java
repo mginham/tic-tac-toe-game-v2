@@ -1,15 +1,13 @@
 package views;
 
 import javax.swing.*;
-import javax.swing.border.Border;
-
 import java.awt.*;
 import java.awt.event.ActionListener;
 
 // View to handle the game appearance
 public class GameView extends JPanel {
     private JButton[][] cells = new JButton[3][3];
-    private String turn1 = "Player 1's turn";
+    private String turn1 = "Player X's turn";
     private JLabel statusLabel = new JLabel(turn1);
 
     // Constructor to initialize the board
