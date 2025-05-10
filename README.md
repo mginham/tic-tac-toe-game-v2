@@ -2,5 +2,5 @@
 
 === To Play the Game ===
 
-1. Navigate to src/codes
+1. Navigate to src
 2. Run the App.java file
